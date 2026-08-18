@@ -1,6 +1,7 @@
 package br.edu.ifsp.orderflow.domain;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public class Cliente {
 
@@ -9,8 +10,8 @@ public class Cliente {
         private final String email;
 
 
-    public Cliente (String id, String nome, String email){
-        this.id = id;
+    public Cliente (String nome, String email){
+        this.id = (UUID.randomUUID()).toString();
         this.nome = nome;
         this.email = email;
     }
