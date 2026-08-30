@@ -11,56 +11,53 @@ public class Pedido {
     private final List<ItemPedido> itens;
     private EStatusPedido status;
 
-    public Pedido(Cliente cliente){
-        this.id =(UUID.randomUUID()).toString();
+    public Pedido(Cliente cliente) {
+        this.id = (UUID.randomUUID()).toString();
         this.cliente = cliente;
         this.itens = new ArrayList<>();
         this.status = EStatusPedido.CRIADO;
-
-
     }
 
     public void adicionarItem(ItemPedido item) {
         this.itens.add(item);
     }
 
-    public BigDecimal calcularTotal(){
+    public BigDecimal calcularTotal() {
         BigDecimal total = BigDecimal.ZERO;
 
-        for (int indice = 0; indice < this.itens.size(); indice++){
+        for (int indice = 0; indice < this.itens.size(); indice++) {
             ItemPedido item = this.itens.get(indice);
             total = total.add(item.calcularSubtotal());
-
         }
         return total;
     }
 
-    public void marcarComoPago(){
+    public void marcarComoPago() {
         this.status = EStatusPedido.PAGO;
     }
 
-    public void cancelar(){
+    public void cancelar() {
         this.status = EStatusPedido.CANCELADO;
     }
 
     public String getId() {
-        return id;
+        return this.id;
     }
 
     public Cliente getCliente() {
-        return cliente;
-    }
-
-    public List<ItemPedido> getItens() {
-        return itens;
+        return this.cliente;
     }
 
     public EStatusPedido getStatus() {
-        return status;
+        return this.status;
+    }
+
+    public List<ItemPedido> getItens() {
+        return this.itens;
     }
 
     @Override
     public String toString() {
-        return "Pedido[" + this.id + "," + this.status + ',' + this.calcularTotal() + "]";
+        return "Pedido[" + this.id + ", " + this.status + ", Total R$: " + this.calcularTotal() + "]";
     }
 }

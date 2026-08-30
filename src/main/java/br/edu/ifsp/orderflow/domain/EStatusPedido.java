@@ -5,4 +5,3 @@ public enum EStatusPedido {
     PAGO,
     CANCELADO
 }
- /*Enumeração, como se fosse uma lista*/
