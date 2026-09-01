@@ -3,6 +3,7 @@ package br.edu.ifsp.orderflow.domain;
 import java.math.BigDecimal;
 
 public class Produto {
+
     private final String id;
     private final String nome;
     private final BigDecimal preco;

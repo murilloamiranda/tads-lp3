@@ -1,19 +1,32 @@
 package br.edu.ifsp.orderflow;
-
 import br.edu.ifsp.orderflow.domain.Cliente;
 import br.edu.ifsp.orderflow.domain.ItemPedido;
 import br.edu.ifsp.orderflow.domain.Pedido;
 import br.edu.ifsp.orderflow.domain.Produto;
+import br.edu.ifsp.orderflow.infra.ConsoleNotificacaoService;
+import br.edu.ifsp.orderflow.infra.FakePagamentoGateway;
 import br.edu.ifsp.orderflow.infra.InMemoryEstoqueService;
-import br.edu.ifsp.orderflow.service.IEstoqueService;
+import br.edu.ifsp.orderflow.infra.InMemoryPedidoRepository;
+import br.edu.ifsp.orderflow.service.*;
 
 import java.math.BigDecimal;
 
 public class Main {
-
     public static void main(String[] args) {
 
         IEstoqueService estoqueService = new InMemoryEstoqueService();
+        IPedidoRepository pedidoRepository = new InMemoryPedidoRepository();
+        INotificacaoService notificacaoService = new ConsoleNotificacaoService();
+        IPagamentoGateway pagamentoGateway = new FakePagamentoGateway();
+
+        PedidoService pedidoService = new PedidoService(
+                estoqueService,
+                pedidoRepository,
+                pagamentoGateway,
+                notificacaoService
+
+        );
+
 
         Produto mouse = new Produto(
                 "SKU-1",
@@ -44,19 +57,24 @@ public class Main {
         pedido1.adicionarItem(new ItemPedido(mouse, 2));
         pedido1.adicionarItem(new ItemPedido(teclado, 2));
 
-        boolean reservado = estoqueService.reservar(pedido1);
+       Pedido pedido = pedidoService.processar(pedido1);
 
-        if (reservado == false) {
-            System.out.println("Reserva indisponível");
-        } else {
-            System.out.println("Reservado com sucesso!");
-        }
+       System.out.println(pedido);
 
-        Pedido pedido2 = new Pedido(bruno);
-        pedido2.adicionarItem(new ItemPedido(monitor, 2));
-        pedido2.adicionarItem(new ItemPedido(teclado, 5));
+         //* boolean reservado = estoqueService.reservar(pedido1);
 
-        System.out.println(pedido1);
+        //* if (reservado == false) {
+        //*   System.out.println("Não foi reservado.");
+        //* }
 
+        //* Pedido pedido2 = new Pedido(bruno);
+        //* pedido2.adicionarItem(new ItemPedido(monitor, 2));
+        //*  pedido2.adicionarItem(new ItemPedido(teclado, 5));*
+
+        //*InMemoryEstoqueService estoque = new InMemoryEstoqueService();
+
+        //* estoque.adicionarEstoque(mouse, 1);
+        //* estoque.adicionarEstoque(mouse, 1);
+        //* System.out.println(pedido1);
     }
 }
