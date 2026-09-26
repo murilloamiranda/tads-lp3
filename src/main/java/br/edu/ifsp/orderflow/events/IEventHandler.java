@@ -1,21 +1,20 @@
 package br.edu.ifsp.orderflow.events;
 
 /**
- * Algo que irá consumir/reagir a um tipo especifico de eventio
- * (uma class que implementa IDomaninEvent)
+ * Algo que irá consumir/reagir a um tipo específico de evento
+ * (uma class que implementa IDomainEvent).
  *
- * O parãmetr de tipo E garante, em tempo de comilação, que
- * um handler de PagamentoAprovado nunca receba um PagamentoRecusado
+ * O parâmetro de tipo E garante, em TEMPO DE COMPILAÇÃO, que
+ * um handler de PagamentoAprovado nunca receba um PagamentoRecusado.
  */
-
-public interface IEventHandler <E extends IDomainEvent>{
+public interface IEventHandler<E extends IDomainEvent> {
 
     void handle(E event);
 
     /**
-     * Qual tipo de evento este handle trata/consome?
+     * Qual tipo de evento este handler trata/consome?
      *
-     * Necessário por causa do apagamento de tipo do java (tpe erasure)
+     * Necessário por causa do apagamento de tipo do Java (type erasure)
      * @return
      */
     Class<E> eventType();

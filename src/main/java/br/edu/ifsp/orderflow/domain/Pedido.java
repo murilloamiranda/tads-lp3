@@ -6,10 +6,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class Pedido {
-
     private final String id;
     private final Cliente cliente;
-    private final List<ItemPedido> itens; // define uma lista de itemPedido
+    private final List<ItemPedido> itens;
     private EStatusPedido status;
 
     public Pedido(Cliente cliente) {
@@ -19,51 +18,56 @@ public class Pedido {
         this.status = EStatusPedido.CRIADO;
     }
 
-    public void adicionarItem(ItemPedido item){
+    public void adicionarItem(ItemPedido item) {
         this.itens.add(item);
     }
 
     public BigDecimal calcularTotal() {
         BigDecimal total = BigDecimal.ZERO;
 
-        for (int i = 0; i < this.itens.size(); i++) {
-            ItemPedido item = this.itens.get(i);
+        for (int indice = 0; indice < this.itens.size(); indice++) {
+            ItemPedido item = this.itens.get(indice);
             total = total.add(item.calcularSubtotal());
         }
-
         return total;
     }
 
     public void marcarComoPago() {
+
         this.status = EStatusPedido.PAGO;
     }
 
     public void cancelar() {
+
         this.status = EStatusPedido.CANCELADO;
     }
 
     public String getId() {
-        return id;
+
+        return this.id;
     }
 
     public Cliente getCliente() {
-        return cliente;
-    }
 
-    public List<ItemPedido> getItens() {
-        return itens;
+        return this.cliente;
     }
 
     public EStatusPedido getStatus() {
-        return status;
+
+        return this.status;
     }
 
-    public String getIdCurto(){
+    public List<ItemPedido> getItens() {
+
+        return this.itens;
+    }
+
+    public String getIdCurto() {
         return this.id.substring(0, 8);
     }
 
     @Override
     public String toString() {
-        return "Pedido[" + this.getIdCurto() + ", " + this.status + ", " + this.calcularTotal() + "]";
+        return "Pedido[" + this.getIdCurto() + ", " + this.status + ", Total R$: " + this.calcularTotal() + "]";
     }
 }
